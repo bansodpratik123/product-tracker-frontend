@@ -1,8 +1,8 @@
-# 🛍️ TrackerGPT Frontend
+# 🛍️ Get Best Deal Frontend
 
 A modern, responsive React application for tracking product prices and getting notified when they drop to your target price. Built with Vite, React, Tailwind CSS, and featuring a beautiful dark theme with glass-morphism effects.
 
-![TrackerGPT](https://img.shields.io/badge/TrackerGPT-AI%20Powered-teal)
+![Get Best Deal](https://img.shields.io/badge/Get%20Best%20Deal-AI%20Powered-teal)
 ![React](https://img.shields.io/badge/React-18+-blue)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4.0+-cyan)
 ![Vite](https://img.shields.io/badge/Vite-7.0+-yellow)
@@ -75,7 +75,7 @@ src/
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd tracker-gpt-frontend
+   cd get-best-deal-frontend
    ```
 
 2. **Install dependencies**
@@ -426,6 +426,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Happy Tracking! 🎯**
+**Happy Deal Hunting! 🎯**
 
-Made with ❤️ by the TrackerGPT Team
+Made with ❤️ by the Get Best Deal Team

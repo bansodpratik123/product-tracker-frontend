@@ -29,7 +29,7 @@ const Header = () => {
             <div className="p-2 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500">
               <ShoppingCart className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">TrackerGPT</span>
+            <span className="text-xl font-bold text-white">Get Best Deal</span>
           </Link>
 
           {/* Desktop Navigation */}

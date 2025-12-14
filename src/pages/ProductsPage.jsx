@@ -106,9 +106,15 @@ const ProductsPage = ({ showToast }) => {
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-16">
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-between mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold text-white">Your Products</h1>
-              <div className="h-12 w-32 bg-slate-700/50 rounded-lg animate-pulse"></div>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <div className="h-12 bg-slate-700/50 rounded-lg mb-2 w-80 animate-pulse"></div>
+                <div className="h-4 bg-slate-700/30 rounded w-32 animate-pulse"></div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-20 bg-slate-700/50 rounded-lg animate-pulse"></div>
+                <div className="h-10 w-32 bg-slate-700/50 rounded-lg animate-pulse"></div>
+              </div>
             </div>
             <LoadingSkeleton />
           </div>
@@ -122,8 +128,15 @@ const ProductsPage = ({ showToast }) => {
       <div className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">Your Products</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Your Products</h1>
+              {products.length > 0 && (
+                <p className="text-slate-400">
+                  {products.length} {products.length === 1 ? 'product' : 'products'} tracked
+                </p>
+              )}
+            </div>
             <div className="flex items-center gap-4">
               <button
                 onClick={handleRefresh}
@@ -143,11 +156,11 @@ const ProductsPage = ({ showToast }) => {
             </div>
           </div>
 
-          {/* Products Grid or Empty State */}
+          {/* Products List or Empty State */}
           {products.length === 0 ? (
             <EmptyState onAddProduct={() => setAddModalOpen(true)} />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-0">
               {products.map((product) => (
                 <ProductCard
                   key={product.id}
