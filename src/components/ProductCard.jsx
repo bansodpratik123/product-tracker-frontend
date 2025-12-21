@@ -3,10 +3,14 @@ import StatusBadge from './StatusBadge';
 import { formatCurrency, formatRelativeTime } from '../utils/format';
 
 const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
-  const currentPrice = product.current_price || 0;
+  const currentPrice = product.current_price;
   const targetPrice = product.target_price || 0;
-  const priceDifference = currentPrice - targetPrice;
-  const isTargetReached = product.status === 'READY_TO_BUY' || product.status === 'DROPPED' || (currentPrice <= targetPrice && currentPrice > 0);
+
+  // Only calculate difference when current price exists
+  const priceDifference = (currentPrice != null && targetPrice) ? currentPrice - targetPrice : null;
+
+  // Trust backend status completely - no price-based inference
+  const isTargetReached = product.status === 'READY_TO_BUY';
 
   const getPriceDifferenceIcon = () => {
     if (isTargetReached) {
@@ -79,7 +83,7 @@ const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             <div>
               <p className="text-sm text-slate-400 mb-1">Current Price</p>
               <p className="text-xl font-bold text-white">
-                {formatCurrency(currentPrice)}
+                {currentPrice != null ? formatCurrency(currentPrice) : '—'}
               </p>
             </div>
 
@@ -94,36 +98,40 @@ const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             {/* Price Difference */}
             <div>
               <p className="text-sm text-slate-400 mb-1">Difference</p>
-              {currentPrice > 0 && (
+              {priceDifference !== null ? (
                 <div className={`flex items-center gap-2 text-sm ${getPriceDifferenceColor()}`}>
                   {getPriceDifferenceIcon()}
                   <span className="font-medium">
                     {formatCurrency(Math.abs(priceDifference))}
                   </span>
                 </div>
+              ) : (
+                <span className="text-slate-500">—</span>
               )}
             </div>
           </div>
 
           {/* Status Message */}
-          {currentPrice > 0 && (
-            <div className="mb-4">
-              <div className={`flex items-center gap-2 text-sm ${getPriceDifferenceColor()}`}>
-                <span>
-                  {product.status === 'READY_TO_BUY'
-                    ? `🎯 Ready to buy! Save ${formatCurrency(Math.abs(priceDifference))}`
-                    : product.status === 'DROPPED'
-                    ? `📉 Price dropped! Save ${formatCurrency(Math.abs(priceDifference))}`
-                    : product.status === 'WAIT_FOR_DROP'
+          <div className="mb-4">
+            <div className={`flex items-center gap-2 text-sm ${getPriceDifferenceColor()}`}>
+              <span>
+                {product.status === 'PENDING_FIRST_CHECK'
+                  ? `⏳ Tracking will start soon`
+                  : product.status === 'WAIT_FOR_DROP'
+                  ? priceDifference !== null && priceDifference > 0
                     ? `⏰ Wait for drop: ${formatCurrency(Math.abs(priceDifference))} above target`
-                    : isTargetReached
-                    ? `Target reached! Save ${formatCurrency(Math.abs(priceDifference))}`
-                    : `${formatCurrency(Math.abs(priceDifference))} above target`
-                  }
-                </span>
-              </div>
+                    : `⏰ Waiting for price drop`
+                  : product.status === 'READY_TO_BUY'
+                  ? priceDifference !== null
+                    ? `🎉 Price dropped! Save ${formatCurrency(Math.abs(priceDifference))}`
+                    : `🎉 Price dropped - Ready to buy!`
+                  : product.status === 'ERROR'
+                  ? `❌ Tracking failed - please try again`
+                  : `📊 Tracking status: ${product.status || 'Unknown'}`
+                }
+              </span>
             </div>
-          )}
+          </div>
 
           {/* Timestamp and URL */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-slate-700/50 gap-2">

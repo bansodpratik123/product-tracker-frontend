@@ -3,35 +3,35 @@ import { TrendingDown, Clock, AlertCircle, Check } from 'lucide-react';
 const StatusBadge = ({ status }) => {
   const getStatusConfig = () => {
     switch (status) {
+      case 'PENDING_FIRST_CHECK':
+        return {
+          icon: Clock,
+          text: 'Tracking will start soon',
+          className: 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+        };
       case 'WAIT_FOR_DROP':
         return {
           icon: Clock,
-          text: 'Wait for Drop',
+          text: 'Waiting for price drop',
           className: 'bg-amber-500/10 text-amber-400 border-amber-500/20'
         };
       case 'READY_TO_BUY':
         return {
           icon: Check,
-          text: 'Ready to Buy',
+          text: 'Price dropped 🎉',
           className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-        };
-      case 'DROPPED':
-        return {
-          icon: TrendingDown,
-          text: 'Price Dropped',
-          className: 'bg-teal-500/10 text-teal-400 border-teal-500/20'
         };
       case 'ERROR':
         return {
           icon: AlertCircle,
-          text: 'Error',
+          text: 'Tracking failed',
           className: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
         };
       default:
         return {
           icon: Clock,
-          text: 'Wait for Drop',
-          className: 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+          text: 'Tracking will start soon',
+          className: 'bg-blue-500/10 text-blue-400 border-blue-500/20'
         };
     }
   };

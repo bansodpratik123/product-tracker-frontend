@@ -3,9 +3,9 @@
 A modern, responsive React application for tracking product prices and getting notified when they drop to your target price. Built with Vite, React, Tailwind CSS, and featuring a beautiful dark theme with glass-morphism effects.
 
 ![Get Best Deal](https://img.shields.io/badge/Get%20Best%20Deal-AI%20Powered-teal)
-![React](https://img.shields.io/badge/React-18+-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-4.0+-cyan)
-![Vite](https://img.shields.io/badge/Vite-7.0+-yellow)
+![React](https://img.shields.io/badge/React-19+-blue)
+![Tailwind](https://img.shields.io/badge/Tailwind-4.1+-cyan)
+![Vite](https://img.shields.io/badge/Vite-7.2+-yellow)
 
 ## ✨ Features
 
@@ -26,8 +26,8 @@ A modern, responsive React application for tracking product prices and getting n
 ### 📱 **Responsive Design**
 - **Mobile-first** approach
 - **Horizontal navigation** with hamburger menu on mobile
-- **Card-based layout** for products (1/2/3 columns based on screen size)
-- **Touch-friendly** interactions
+- **Sequential horizontal layout** for products with large images (192×144px)
+- **Touch-friendly** interactions and responsive grid system
 
 ### 🔧 **Developer Experience**
 - **Hot Module Replacement** for instant updates
@@ -128,7 +128,8 @@ Your backend should return products in this format:
   "status": "WAIT_FOR_DROP",
   "current_price": "11895.00",
   "target_price": "12000.00",
-  "url": "https://www.nike.com/..."
+  "url": "https://www.nike.com/...",
+  "created_at": "2024-12-15T10:30:00Z"
 }
 ```
 
@@ -136,10 +137,10 @@ Your backend should return products in this format:
 
 | Backend Status | Frontend Display | Description |
 |----------------|------------------|-------------|
-| `WAIT_FOR_DROP` | Wait for Drop | Monitoring price, waiting for decrease |
-| `READY_TO_BUY` | Ready to Buy | Target price reached, ready to purchase |
-| `DROPPED` | Price Dropped | Price has decreased significantly |
-| `ERROR` | Error | Issue with tracking this product |
+| `PENDING_FIRST_CHECK` | Tracking will start soon | Initial state before first price check |
+| `WAIT_FOR_DROP` | Waiting for price drop | Monitoring price, waiting for decrease |
+| `READY_TO_BUY` | Price dropped 🎉 | Target price reached, ready to purchase |
+| `ERROR` | Tracking failed | Issue with tracking this product |
 
 ### Data Mapping
 
@@ -207,11 +208,11 @@ max-w-7xl mx-auto px-6
 
 ## 📱 Responsive Breakpoints
 
-| Screen Size | Layout | Grid Columns |
-|-------------|--------|--------------|
-| **Mobile** (`<640px`) | Single column, stacked navigation | 1 column |
-| **Tablet** (`640px-1024px`) | Two-column grid, full navigation | 2 columns |
-| **Desktop** (`>1024px`) | Three-column grid, full navigation | 3 columns |
+| Screen Size | Layout | Product Display |
+|-------------|--------|-----------------|
+| **Mobile** (`<640px`) | Sequential vertical stack, hamburger navigation | Full width horizontal cards |
+| **Tablet** (`640px-1024px`) | Sequential vertical stack, full navigation | Full width horizontal cards |
+| **Desktop** (`>1024px`) | Sequential vertical stack, full navigation | Full width horizontal cards |
 
 ## 🧩 Component API
 
@@ -229,7 +230,10 @@ max-w-7xl mx-auto px-6
 ### StatusBadge
 
 ```jsx
+<StatusBadge status="PENDING_FIRST_CHECK" />
 <StatusBadge status="WAIT_FOR_DROP" />
+<StatusBadge status="READY_TO_BUY" />
+<StatusBadge status="ERROR" />
 ```
 
 ### Toast
@@ -292,9 +296,11 @@ export default {
 ## 🌟 Key Features Explained
 
 ### 1. **Product Status System**
-- Real-time status updates based on price monitoring
+- Backend-authoritative status management without frontend price inference
+- Four distinct states: PENDING_FIRST_CHECK, WAIT_FOR_DROP, READY_TO_BUY, ERROR
 - Actionable status messages that tell users exactly what to do
 - Color-coded badges for quick visual identification
+- Proper null price handling with "—" display for missing current prices
 
 ### 2. **Responsive Navigation**
 - Fixed header with horizontal navigation on desktop
