@@ -1,0 +1,13 @@
+{
+  "Auth": {
+    "Cognito": {
+      "userPoolId": "ap-south-1_nRqYnKSMN",
+      "userPoolClientId": "6ocp1pojao438r226q8nq1bd1s",
+      "region": "ap-south-1",
+      "signUpVerificationMethod": "code",
+      "loginWith": {
+        "email": true
+      }
+    }
+  }
+}

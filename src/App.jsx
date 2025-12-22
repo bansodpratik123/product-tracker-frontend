@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Landing from './pages/Landing';
 import ProductsPage from './pages/ProductsPage';
 import Toast from './components/Toast';
+import AuthWrapper from './components/AuthWrapper';
 
 function App() {
   const [toast, setToast] = useState({
@@ -28,26 +29,28 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="min-h-screen">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route
-            path="/products"
-            element={<ProductsPage showToast={showToast} />}
-          />
-        </Routes>
+    <AuthWrapper>
+      <Router>
+        <div className="min-h-screen">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route
+              path="/products"
+              element={<ProductsPage showToast={showToast} />}
+            />
+          </Routes>
 
-        {/* Toast Notification */}
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          isVisible={toast.isVisible}
-          onClose={hideToast}
-        />
-      </div>
-    </Router>
+          {/* Toast Notification */}
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            isVisible={toast.isVisible}
+            onClose={hideToast}
+          />
+        </div>
+      </Router>
+    </AuthWrapper>
   );
 }
 
