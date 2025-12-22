@@ -1,7 +1,32 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles, Zap, BarChart3, Package, Target, Bell, ShoppingBag, DollarSign, TrendingDown, Gift, Star, Heart } from 'lucide-react';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 const Landing = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkAuthState();
+  }, []);
+
+  const checkAuthState = async () => {
+    try {
+      await getCurrentUser();
+      setIsAuthenticated(true);
+    } catch (error) {
+      setIsAuthenticated(false);
+    }
+  };
+
+  const handleCTAClick = () => {
+    if (isAuthenticated) {
+      navigate('/products');
+    } else {
+      navigate('/auth');
+    }
+  };
   const stats = [
     { label: 'Products Tracked', value: '50K+' },
     { label: 'Happy Users', value: '10K+' },
@@ -81,13 +106,13 @@ const Landing = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/auth"
+              <button
+                onClick={handleCTAClick}
                 className="group px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-teal-500/25 transition-all duration-300 flex items-center gap-2"
               >
                 Start Tracking for Free
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-              </Link>
+              </button>
               <button className="px-8 py-4 border border-slate-700 text-slate-300 font-semibold rounded-xl hover:bg-slate-800/50 hover:border-slate-600 transition-all duration-200">
                 Watch Demo
               </button>
@@ -280,13 +305,13 @@ const Landing = () => {
           </div>
 
           <div className="text-center mt-16">
-            <Link
-              to="/auth"
+            <button
+              onClick={handleCTAClick}
               className="group px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-teal-500/25 transition-all duration-300 inline-flex items-center gap-2"
             >
               Start Tracking Now
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-            </Link>
+            </button>
           </div>
         </div>
       </section>
