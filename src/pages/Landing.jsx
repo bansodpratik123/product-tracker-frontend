@@ -82,7 +82,7 @@ const Landing = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                to="/products"
+                to="/auth"
                 className="group px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-teal-500/25 transition-all duration-300 flex items-center gap-2"
               >
                 Start Tracking for Free
@@ -281,7 +281,7 @@ const Landing = () => {
 
           <div className="text-center mt-16">
             <Link
-              to="/products"
+              to="/auth"
               className="group px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-teal-500/25 transition-all duration-300 inline-flex items-center gap-2"
             >
               Start Tracking Now

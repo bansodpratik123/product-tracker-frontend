@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Landing from './pages/Landing';
 import ProductsPage from './pages/ProductsPage';
+import AuthPage from './pages/AuthPage';
 import Toast from './components/Toast';
 import AuthWrapper from './components/AuthWrapper';
 
@@ -29,28 +30,31 @@ function App() {
   };
 
   return (
-    <AuthWrapper>
-      <Router>
-        <div className="min-h-screen">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route
-              path="/products"
-              element={<ProductsPage showToast={showToast} />}
-            />
-          </Routes>
-
-          {/* Toast Notification */}
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            isVisible={toast.isVisible}
-            onClose={hideToast}
+    <Router>
+      <div className="min-h-screen">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/auth" element={<AuthPage showToast={showToast} />} />
+          <Route
+            path="/products"
+            element={
+              <AuthWrapper>
+                <ProductsPage showToast={showToast} />
+              </AuthWrapper>
+            }
           />
-        </div>
-      </Router>
-    </AuthWrapper>
+        </Routes>
+
+        {/* Toast Notification */}
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          isVisible={toast.isVisible}
+          onClose={hideToast}
+        />
+      </div>
+    </Router>
   );
 }
 
