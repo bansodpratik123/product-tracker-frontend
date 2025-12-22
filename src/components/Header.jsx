@@ -109,10 +109,9 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="p-2 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200"
-                  title="Sign Out"
+                  className="px-4 py-2 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200 font-medium"
                 >
-                  <LogOut className="w-5 h-5" />
+                  Sign Out
                 </button>
               </>
             )}
@@ -183,9 +182,8 @@ const Header = () => {
                       setIsMenuOpen(false);
                       handleSignOut();
                     }}
-                    className="flex items-center gap-2 px-4 py-2.5 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200"
+                    className="w-full px-4 py-2.5 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200 font-medium"
                   >
-                    <LogOut className="w-4 h-4" />
                     Sign Out
                   </button>
                 </>

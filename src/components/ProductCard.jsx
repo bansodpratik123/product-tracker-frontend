@@ -133,15 +133,6 @@ const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             </div>
           </div>
 
-          {/* Timestamp and URL */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-slate-700/50 gap-2">
-            <p className="text-xs text-slate-500">
-              Added {formatRelativeTime(product.created_at || product.timestamp)}
-            </p>
-            <p className="text-xs text-slate-500 truncate max-w-xs" title={product.url}>
-              {product.url}
-            </p>
-          </div>
         </div>
       </div>
     </div>
