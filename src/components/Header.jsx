@@ -88,16 +88,6 @@ const Header = () => {
                 >
                   Sign In
                 </button>
-
-                <button
-                  onClick={() => navigate('/auth')}
-                  className="group relative"
-                >
-                  <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200" />
-                  <div className="relative px-6 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg text-white font-semibold shadow-lg hover:shadow-teal-500/50 transition-all duration-200 transform hover:scale-105">
-                    Track Product
-                  </div>
-                </button>
               </>
             ) : (
               <>
@@ -108,7 +98,7 @@ const Header = () => {
                 )}
                 <button
                   onClick={handleSignOut}
-                  className="px-4 py-2 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200 font-medium"
+                  className="px-6 py-2.5 rounded-lg border-2 border-slate-700 bg-slate-800/50 text-white font-semibold hover:bg-slate-700/50 transition"
                 >
                   Sign Out
                 </button>
@@ -156,16 +146,6 @@ const Header = () => {
                   >
                     Sign In
                   </button>
-
-                  <button
-                    onClick={() => {
-                      navigate('/auth');
-                      setIsMenuOpen(false);
-                    }}
-                    className="w-full px-4 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg text-white font-semibold shadow-lg"
-                  >
-                    Track Product
-                  </button>
                 </>
               ) : (
                 <>
@@ -179,7 +159,7 @@ const Header = () => {
                       setIsMenuOpen(false);
                       handleSignOut();
                     }}
-                    className="w-full px-4 py-2.5 text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all duration-200 font-medium"
+                    className="w-full px-4 py-2.5 rounded-lg border-2 border-slate-700 bg-slate-800/50 text-white font-semibold hover:bg-slate-700/50 transition"
                   >
                     Sign Out
                   </button>
