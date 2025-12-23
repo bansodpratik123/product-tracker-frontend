@@ -128,39 +128,40 @@ const ProductsPage = ({ showToast }) => {
       <div className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Your Products</h1>
-              {products.length > 0 && (
-                <p className="text-slate-400">
-                  Total Product : {products.length}
-                </p>
-              )}
-            </div>
-            <div className="flex items-center gap-4">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">Your Products</h1>
+            {products.length > 0 && (
+              <p className="text-slate-400 mb-4 sm:mb-6">
+                Tracking {products.length} {products.length === 1 ? 'product' : 'products'}
+              </p>
+            )}
+
+            {/* Action buttons - Stack on mobile */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <button
+                onClick={() => setAddModalOpen(true)}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl text-white font-semibold shadow-lg hover:shadow-teal-500/50 transition-all"
+              >
+                <Plus className="w-5 h-5" />
+                Add Product
+              </button>
+
               <button
                 onClick={handleRefresh}
                 disabled={refreshing}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 text-slate-300 border border-slate-700 rounded-lg hover:bg-slate-800 hover:text-white transition-all duration-200 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-slate-700 bg-slate-800/50 text-white font-semibold hover:bg-slate-700/50 transition-all disabled:opacity-50"
               >
-                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
                 Refresh
-              </button>
-              <button
-                onClick={() => setAddModalOpen(true)}
-                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-200"
-              >
-                <Plus className="w-4 h-4" />
-                Add Product
               </button>
             </div>
           </div>
 
-          {/* Products List or Empty State */}
+          {/* Products Grid or Empty State */}
           {products.length === 0 ? (
             <EmptyState onAddProduct={() => setAddModalOpen(true)} />
           ) : (
-            <div className="space-y-0">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               {products.map((product) => (
                 <ProductCard
                   key={product.id}

@@ -6,32 +6,32 @@ const StatusBadge = ({ status }) => {
       case 'PENDING_FIRST_CHECK':
         return {
           icon: Clock,
-          text: 'Tracking will start soon',
-          className: 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+          text: 'Starting',
+          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-xl'
         };
       case 'WAIT_FOR_DROP':
         return {
           icon: Clock,
-          text: 'Waiting for price drop',
-          className: 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+          text: 'Tracking',
+          className: 'bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-xl'
         };
       case 'READY_TO_BUY':
         return {
           icon: Check,
-          text: 'Price dropped 🎉',
-          className: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+          text: 'Ready',
+          className: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 backdrop-blur-xl'
         };
       case 'ERROR':
         return {
           icon: AlertCircle,
-          text: 'Tracking failed',
-          className: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+          text: 'Error',
+          className: 'bg-rose-500/20 text-rose-300 border border-rose-500/30 backdrop-blur-xl'
         };
       default:
         return {
           icon: Clock,
-          text: 'Tracking will start soon',
-          className: 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+          text: 'Starting',
+          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-xl'
         };
     }
   };
@@ -39,7 +39,7 @@ const StatusBadge = ({ status }) => {
   const { icon: Icon, text, className } = getStatusConfig();
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium border rounded-full ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${className}`}>
       <Icon className="w-3 h-3" />
       {text}
     </span>
