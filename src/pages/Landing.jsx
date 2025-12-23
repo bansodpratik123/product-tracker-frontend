@@ -75,7 +75,7 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Hero Section */}
-      <section className="py-32 relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden">
         {/* Animated background blobs */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -189,7 +189,7 @@ const Landing = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-slate-900/30">
+      <section className="py-16 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {stats.map((stat, index) => (
@@ -205,7 +205,7 @@ const Landing = () => {
       </section>
 
       {/* Supported Sites Section */}
-      <section className="py-24">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -247,7 +247,7 @@ const Landing = () => {
       </section>
 
       {/* Why Choose Section */}
-      <section id="features" className="py-24">
+      <section id="features" className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -276,7 +276,7 @@ const Landing = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-24 bg-slate-900/30">
+      <section id="how-it-works" className="py-16 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -289,15 +289,21 @@ const Landing = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {steps.map((step, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
-                    <step.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center text-sm font-bold text-teal-400">
-                    {step.step}
-                  </div>
+              <div
+                key={index}
+                className="p-8 backdrop-blur-xl bg-slate-800/40 border border-slate-700/50 rounded-2xl hover:bg-slate-800/60 transition-all duration-300 group relative"
+              >
+                {/* Step Badge on Top Center */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-3 py-1 border-2 border-teal-400 bg-slate-900 rounded-full">
+                  <span className="text-sm font-bold text-teal-400">Step {step.step}</span>
                 </div>
+
+                {/* Icon */}
+                <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center mb-6 mt-8 group-hover:scale-110 transition-transform duration-300">
+                  <step.icon className="w-6 h-6 text-white" />
+                </div>
+
+                {/* Content */}
                 <h3 className="text-xl font-semibold text-white mb-4">{step.title}</h3>
                 <p className="text-slate-300 leading-relaxed">{step.description}</p>
               </div>
