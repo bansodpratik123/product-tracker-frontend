@@ -43,7 +43,7 @@ const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             <p className="text-sm font-medium text-amber-400">
               {formatCurrency(Math.abs(priceDifference))} to go
             </p>
-            <p className="text-xs text-slate-500">Waiting for drop</p>
+            <p className="text-xs text-slate-500">Waiting for price drop</p>
           </div>
         </div>
       ) : (
@@ -52,7 +52,7 @@ const ProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             <Clock className="w-4 h-4 text-slate-400" />
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-400">Tracking</p>
+            <p className="text-sm font-medium text-slate-400">Wait For Price Drop</p>
             <p className="text-xs text-slate-500">Monitoring price</p>
           </div>
         </div>

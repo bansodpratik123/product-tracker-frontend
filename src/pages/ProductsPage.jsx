@@ -132,7 +132,7 @@ const ProductsPage = ({ showToast }) => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">Your Products</h1>
             {products.length > 0 && (
               <p className="text-slate-400 mb-4 sm:mb-6">
-                Tracking {products.length} {products.length === 1 ? 'product' : 'products'}
+                Total products : {products.length}
               </p>
             )}
 

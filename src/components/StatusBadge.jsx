@@ -1,49 +1,36 @@
-import { TrendingDown, Clock, AlertCircle, Check } from 'lucide-react';
+import { Clock, TrendingDown, AlertCircle } from 'lucide-react';
 
-const StatusBadge = ({ status }) => {
+export default function StatusBadge({ status }) {
+  // Map backend status to display text
   const getStatusConfig = () => {
-    switch (status) {
-      case 'PENDING_FIRST_CHECK':
-        return {
-          icon: Clock,
-          text: 'Starting',
-          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-xl'
-        };
-      case 'WAIT_FOR_DROP':
-        return {
-          icon: Clock,
-          text: 'Tracking',
-          className: 'bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-xl'
-        };
-      case 'READY_TO_BUY':
-        return {
-          icon: Check,
-          text: 'Ready',
-          className: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 backdrop-blur-xl'
-        };
-      case 'ERROR':
-        return {
-          icon: AlertCircle,
-          text: 'Error',
-          className: 'bg-rose-500/20 text-rose-300 border border-rose-500/30 backdrop-blur-xl'
-        };
-      default:
-        return {
-          icon: Clock,
-          text: 'Starting',
-          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-xl'
-        };
+    if (status === 'DROPPED' || status === 'READY_TO_BUY') {
+      return {
+        text: 'Price Dropped',
+        icon: TrendingDown,
+        className: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+      };
+    } else if (status === 'TRACKING' || status === 'WAIT_FOR_DROP') {
+      return {
+        text: 'Tracking',
+        icon: Clock,
+        className: 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+      };
+    } else {
+      return {
+        text: 'Error',
+        icon: AlertCircle,
+        className: 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+      };
     }
   };
 
-  const { icon: Icon, text, className } = getStatusConfig();
+  const config = getStatusConfig();
+  const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-xl ${config.className}`}>
       <Icon className="w-3 h-3" />
-      {text}
+      {config.text}
     </span>
   );
-};
-
-export default StatusBadge;
+}
