@@ -1,35 +1,52 @@
-import { Clock, TrendingDown, AlertCircle } from 'lucide-react';
+import React from 'react';
 
 export default function StatusBadge({ status }) {
-  // Map backend status to display text
   const getStatusConfig = () => {
-    if (status === 'DROPPED' || status === 'READY_TO_BUY') {
-      return {
-        text: 'Price Dropped',
-        icon: TrendingDown,
-        className: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-      };
-    } else if (status === 'TRACKING' || status === 'WAIT_FOR_DROP') {
-      return {
-        text: 'Tracking',
-        icon: Clock,
-        className: 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-      };
-    } else {
-      return {
-        text: 'Error',
-        icon: AlertCircle,
-        className: 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-      };
+    switch (status) {
+      case 'PENDING_FIRST_CHECK':
+        return {
+          text: 'Tracking will start soon',
+          icon: '⏳',
+          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+        };
+      case 'WAIT_FOR_DROP':
+        return {
+          text: 'Waiting for price drop',
+          icon: '👀',
+          className: 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+        };
+      case 'READY_TO_BUY':
+        return {
+          text: 'Price dropped 🎉',
+          icon: '🎉',
+          className: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+        };
+      case 'UNAVAILABLE':
+        return {
+          text: 'Price not available',
+          icon: '⚠️',
+          className: 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
+        };
+      case 'ERROR':
+        return {
+          text: 'Tracking failed',
+          icon: '❌',
+          className: 'bg-red-500/20 text-red-300 border border-red-500/30'
+        };
+      default:
+        return {
+          text: 'Tracking will start soon',
+          icon: '⏳',
+          className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+        };
     }
   };
 
   const config = getStatusConfig();
-  const Icon = config.icon;
 
   return (
     <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-xl ${config.className}`}>
-      <Icon className="w-3 h-3" />
+      <span className="text-sm">{config.icon}</span>
       {config.text}
     </span>
   );
