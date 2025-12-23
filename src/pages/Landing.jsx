@@ -28,9 +28,9 @@ const Landing = () => {
     }
   };
   const stats = [
-    { label: 'Products Tracked', value: '50K+' },
-    { label: 'Happy Users', value: '10K+' },
-    { label: 'Money Saved', value: '₹2Cr+' },
+    { label: 'Products Tracked', value: '200+' },
+    { label: 'Happy Users', value: '100+' },
+    { label: 'Money Saved', value: '₹30K+' },
   ];
 
   const features = [
