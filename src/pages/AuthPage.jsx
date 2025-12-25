@@ -133,11 +133,11 @@ const AuthPage = ({ showToast }) => {
 
     setLoading(true);
     try {
-      await signIn({
+      const signInResult = await signIn({
         username: formData.email,
         password: formData.password
       });
-      showToast('Welcome back!', 'success');
+      showToast(`Hello ${formData.email}!`, 'success');
       navigate('/products');
     } catch (error) {
       console.error('Sign in error:', error);
