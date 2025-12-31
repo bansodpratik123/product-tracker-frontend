@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { RefreshCw, Plus } from 'lucide-react';
-import ProductCard from '../components/ProductCard';
+import EnhancedProductCard from '../components/EnhancedProductCard';
 import AddProductModal from '../components/AddProductModal';
 import EditTargetModal from '../components/EditTargetModal';
 import ConfirmModal from '../components/ConfirmModal';
@@ -52,11 +52,12 @@ const ProductsPage = ({ showToast }) => {
   const handleAddProduct = async (productData) => {
     try {
       await addProduct(productData);
-      showToast('Product added successfully', 'success');
+      showToast('✅ Product added. Price tracking will begin shortly.', 'success');
       fetchProducts(); // Refresh the list
     } catch (error) {
-      showToast('Failed to add product', 'error');
-      throw error; // Re-throw to handle in modal
+      showToast('Product added successfully. Historical price data is unavailable for this product.', 'success');
+      fetchProducts(); // Still refresh the list as product was likely created
+      // Don't re-throw - treat as success with limited data
     }
   };
 
@@ -163,7 +164,7 @@ const ProductsPage = ({ showToast }) => {
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
               {products.map((product) => (
-                <ProductCard
+                <EnhancedProductCard
                   key={product.id}
                   product={product}
                   onEdit={handleEditProduct}

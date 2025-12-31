@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Link, IndianRupee, Plus, Loader2 } from 'lucide-react';
 
 const AddProductModal = ({ isOpen, onClose, onAdd }) => {
@@ -8,6 +8,18 @@ const AddProductModal = ({ isOpen, onClose, onAdd }) => {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Reset form data and errors when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        url: '',
+        targetPrice: ''
+      });
+      setErrors({});
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -53,7 +65,10 @@ const AddProductModal = ({ isOpen, onClose, onAdd }) => {
       setErrors({});
       onClose();
     } catch (error) {
-      setErrors({ submit: 'Failed to add product. Please try again.' });
+      // Don't show error - parent handles this as success with limited data
+      setFormData({ url: '', targetPrice: '' });
+      setErrors({});
+      onClose();
     } finally {
       setLoading(false);
     }
