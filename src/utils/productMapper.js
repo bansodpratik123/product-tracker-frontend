@@ -9,6 +9,9 @@ export function mapBackendProduct(backendProduct) {
     target_price: Number(backendProduct.target_price),
     status: mapStatus(backendProduct.status),
     user_id: backendProduct.user_id,
+    // Map product image
+    image: backendProduct.product_image?.url || null,
+    product_image: backendProduct.product_image || null,
     // Add new fields for price summary and insights
     history_status: backendProduct.history_status || 'NOT_AVAILABLE',
     price_summary: backendProduct.price_summary ? {

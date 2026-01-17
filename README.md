@@ -21,13 +21,17 @@ A modern, responsive React application for tracking product prices and getting n
 - **Set Target Prices** and get notified when reached
 - **Real-time Status Updates** with actionable badges
 - **CRUD Operations** - Create, Read, Update, Delete products
-- **Price History** and trend indicators
+- **Price History Charts** with interactive visualization
+- **AI-powered Insights** and price predictions
+- **Complete Product Images** displayed without cropping
 
 ### 📱 **Responsive Design**
-- **Mobile-first** approach
+- **Mobile-first** approach with adaptive layouts
 - **Horizontal navigation** with hamburger menu on mobile
-- **Sequential horizontal layout** for products with large images (192×144px)
+- **Auto-sized product images** with perfect centering on all devices
+- **Complete image visibility** with object-contain scaling and no cropping
 - **Touch-friendly** interactions and responsive grid system
+- **Glass-morphism effects** that work across all screen sizes
 
 ### 🔧 **Developer Experience**
 - **Hot Module Replacement** for instant updates
@@ -43,7 +47,8 @@ src/
 │   └── api.js             # Axios instance and API functions
 ├── components/            # Reusable UI components
 │   ├── Header.jsx         # Navigation header with mobile menu
-│   ├── ProductCard.jsx    # Individual product display card
+│   ├── EnhancedProductCard.jsx # Advanced product card with centered images and glass-morphism
+│   ├── PriceHistoryChart.jsx   # Interactive price history chart
 │   ├── StatusBadge.jsx    # Product status indicator
 │   ├── AddProductModal.jsx # Add new product form modal
 │   ├── EditTargetModal.jsx # Edit target price modal
@@ -56,7 +61,7 @@ src/
 │   └── ProductsPage.jsx   # Product management dashboard
 ├── utils/                 # Utility functions
 │   ├── format.js          # Currency and date formatting
-│   └── productMapper.js   # Backend-to-frontend data mapping
+│   └── productMapper.js   # Backend-to-frontend data mapping with image integration
 ├── App.jsx               # Main app component with routing
 ├── main.jsx              # Application entry point
 └── index.css             # Global styles and Tailwind config
@@ -129,7 +134,20 @@ Your backend should return products in this format:
   "current_price": "11895.00",
   "target_price": "12000.00",
   "url": "https://www.nike.com/...",
-  "created_at": "2024-12-15T10:30:00Z"
+  "created_at": "2024-12-15T10:30:00Z",
+  "product_image": {
+    "url": "https://example.com/product-image.jpg"
+  },
+  "price_summary": {
+    "current_price": "11895.00",
+    "lowest_price": "10500.00",
+    "average_price": "11200.00",
+    "highest_price": "12500.00"
+  },
+  "prediction": {
+    "trend": "DECREASING",
+    "confidence": "HIGH"
+  }
 }
 ```
 
@@ -154,6 +172,10 @@ The frontend automatically maps backend data to frontend format using `productMa
   current_price (string) → current_price (number)
   target_price (string) → target_price (number)
   status → status (preserved as-is)
+  product_image.url → image
+  price_summary → price_summary (with number conversion)
+  prediction → prediction (preserved as-is)
+  history_status → history_status
 }
 ```
 
@@ -210,16 +232,16 @@ max-w-7xl mx-auto px-6
 
 | Screen Size | Layout | Product Display |
 |-------------|--------|-----------------|
-| **Mobile** (`<640px`) | Sequential vertical stack, hamburger navigation | Full width horizontal cards |
-| **Tablet** (`640px-1024px`) | Sequential vertical stack, full navigation | Full width horizontal cards |
-| **Desktop** (`>1024px`) | Sequential vertical stack, full navigation | Full width horizontal cards |
+| **Mobile** (`<640px`) | Sequential vertical stack, hamburger navigation | Full width cards with auto-sized images |
+| **Tablet** (`640px-1024px`) | Sequential vertical stack, full navigation | Full width cards with centered images |
+| **Desktop** (`>1024px`) | Sequential vertical stack, full navigation | Full width cards with large centered images |
 
 ## 🧩 Component API
 
-### ProductCard
+### EnhancedProductCard
 
 ```jsx
-<ProductCard
+<EnhancedProductCard
   product={productObject}
   onEdit={(product) => {}}
   onDelete={(product) => {}}
@@ -295,32 +317,48 @@ export default {
 
 ## 🌟 Key Features Explained
 
-### 1. **Product Status System**
+### 1. **Enhanced Product Cards**
+- **Auto-sized product images** with complete visibility and perfect centering
+- **Object-contain scaling** ensures no image cropping while maintaining aspect ratio
+- **Glass-morphism design** with translucent backgrounds and subtle shadows
+- **Price history charts** with expandable interactive visualization
+- **AI insights** with confidence-based color coding (green/yellow/red)
+- **Professional typography** with improved visual hierarchy
+- **Responsive layout** optimized for all screen sizes with proper image containers
+
+### 2. **Product Status System**
 - Backend-authoritative status management without frontend price inference
 - Four distinct states: PENDING_FIRST_CHECK, WAIT_FOR_DROP, READY_TO_BUY, ERROR
 - Actionable status messages that tell users exactly what to do
 - Color-coded badges for quick visual identification
 - Proper null price handling with "—" display for missing current prices
 
-### 2. **Responsive Navigation**
+### 3. **Responsive Navigation**
 - Fixed header with horizontal navigation on desktop
 - Collapsible hamburger menu on mobile devices
 - Smooth animations and transitions
 
-### 3. **Modal Management**
+### 4. **Modal Management**
 - Add Product Modal with form validation
 - Edit Target Price Modal with current product context
 - Delete Confirmation Modal with product details
 
-### 4. **Loading States**
+### 5. **Loading States**
 - Skeleton components for better perceived performance
 - Loading indicators for all async operations
 - Empty states with encouraging call-to-action
 
-### 5. **Error Handling**
+### 6. **Image Integration System**
+- **Backend product_image mapping** from `product_image.url` to frontend `image` property
+- **Automatic fallback handling** for missing or broken images
+- **Centered image containers** using CSS Grid `place-items-center` for perfect alignment
+- **Auto-height containers** that adapt to content while maintaining layout integrity
+
+### 7. **Error Handling**
 - Toast notifications for user feedback
 - Form validation with inline error messages
 - Graceful API error handling
+- Fallback states for missing product data
 
 ## 🚀 Production Deployment
 

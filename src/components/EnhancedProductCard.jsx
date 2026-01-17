@@ -93,29 +93,29 @@ const EnhancedProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
     if (historyStatus === 'AVAILABLE' && summary && (summary.lowest_price || summary.average_price || summary.highest_price)) {
       return (
         <div className="flex flex-col justify-center items-start h-full">
-          <h4 className="text-sm uppercase tracking-wide text-slate-400 mb-4">
+          <h4 className="text-sm uppercase tracking-wide text-slate-300 mb-4 font-bold border-b border-slate-600/50 pb-2 w-full">
             Price Insights
           </h4>
 
-          <div className="space-y-3 w-full">
+          <div className="space-y-4 w-full">
             {summary.lowest_price && (
-              <div className="flex justify-between w-full">
-                <span className="text-slate-400">Lowest</span>
-                <span className="font-medium text-emerald-400">{formatCurrency(summary.lowest_price)}</span>
+              <div className="flex justify-between w-full items-center p-2 rounded-lg bg-emerald-500/5">
+                <span className="text-slate-400 text-sm">Lowest</span>
+                <span className="font-semibold text-emerald-400">{formatCurrency(summary.lowest_price)}</span>
               </div>
             )}
 
             {summary.average_price && (
-              <div className="flex justify-between w-full">
-                <span className="text-slate-400">Average</span>
-                <span className="font-medium text-amber-400">{formatCurrency(summary.average_price)}</span>
+              <div className="flex justify-between w-full items-center p-2 rounded-lg bg-amber-500/5">
+                <span className="text-slate-400 text-sm">Average</span>
+                <span className="font-semibold text-amber-400">{formatCurrency(summary.average_price)}</span>
               </div>
             )}
 
             {summary.highest_price && (
-              <div className="flex justify-between w-full">
-                <span className="text-slate-400">Highest</span>
-                <span className="font-medium text-rose-400">{formatCurrency(summary.highest_price)}</span>
+              <div className="flex justify-between w-full items-center p-2 rounded-lg bg-rose-500/5">
+                <span className="text-slate-400 text-sm">Highest</span>
+                <span className="font-semibold text-rose-400">{formatCurrency(summary.highest_price)}</span>
               </div>
             )}
           </div>
@@ -165,102 +165,131 @@ const EnhancedProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
     if (!prediction || !prediction.message) return null;
 
     const confidence = prediction.confidence || 'LOW';
-    const confidenceBadgeClass = {
-      'HIGH': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-      'MEDIUM': 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-      'LOW': 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
-    }[confidence] || 'bg-slate-500/10 text-slate-400 border border-slate-500/20';
+
+    // Enhanced confidence-based styling
+    const confidenceStyles = {
+      'HIGH': {
+        badge: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
+        border: 'border-emerald-400',
+        icon: 'text-emerald-400'
+      },
+      'MEDIUM': {
+        badge: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
+        border: 'border-amber-400',
+        icon: 'text-amber-400'
+      },
+      'LOW': {
+        badge: 'bg-red-500/15 text-red-400 border border-red-500/30',
+        border: 'border-red-400',
+        icon: 'text-red-400'
+      }
+    };
+
+    const style = confidenceStyles[confidence] || confidenceStyles['LOW'];
 
     return (
-      <div className="mt-6 p-4 rounded-xl bg-white/5 border-l-4 border-teal-400">
-        <div className="flex items-start gap-3">
-          <div className="flex-shrink-0 mt-0.5">
-            <Sparkles className="w-5 h-5 text-teal-400" />
+      <div className={`mt-4 p-4 rounded-xl bg-white/5 border-l-4 ${style.border}`}>
+        <div className="flex items-center gap-3">
+          <div className="flex-shrink-0">
+            <Sparkles className={`w-5 h-5 ${style.icon}`} />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium text-white">
-                AI Insight
-              </span>
-              <span className={`text-xs px-2 py-0.5 rounded-full ${confidenceBadgeClass}`}>
-                {confidence} confidence
-              </span>
-            </div>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              {prediction.message}
-            </p>
-          </div>
+          <span className="text-sm font-semibold text-white">
+            AI Insight
+          </span>
+          <span className={`text-xs px-2 py-1 rounded-full font-medium ${style.badge}`}>
+            {confidence} confidence
+          </span>
+          <p className="text-sm text-slate-300 flex-1">
+            {prediction.message}
+          </p>
         </div>
       </div>
     );
   };
 
-  // Render action buttons
+  // Render action buttons with improved grouping
   const renderActionButtons = (isMobile = false) => (
-    <div className={`flex gap-3 ${isMobile ? 'justify-center' : 'justify-start'}`}>
-      {/* Edit Button */}
-      <button
-        onClick={() => onEdit(product)}
-        className={`flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'gap-2 px-4 py-2'} rounded-xl bg-slate-700/50 hover:bg-slate-600/50 transition-all`}
-        title="Edit target price"
-      >
-        <Edit2 className="w-4 h-4 text-slate-300" />
-        {!isMobile && <span className="text-slate-300 text-sm">Edit</span>}
-      </button>
+    <div className={`flex ${isMobile ? 'justify-center' : 'justify-between'} items-center`}>
+      {/* Primary Actions Group */}
+      <div className="flex gap-2">
+        {/* Edit Button */}
+        <button
+          onClick={() => onEdit(product)}
+          className={`flex items-center justify-center ${isMobile ? 'w-10 h-10' : 'gap-2 px-3 py-2'} rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition-all duration-200`}
+          title="Edit target price"
+        >
+          <Edit2 className="w-4 h-4 text-slate-300" />
+          {!isMobile && <span className="text-slate-300 text-sm font-medium">Edit</span>}
+        </button>
 
-      {/* View Product Button */}
-      <a
-        href={product.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'gap-2 px-4 py-2'} rounded-xl bg-slate-700/50 hover:bg-slate-600/50 transition-all`}
-        title="View product"
-      >
-        <ExternalLink className="w-4 h-4 text-slate-300" />
-        {!isMobile && <span className="text-slate-300 text-sm">View</span>}
-      </a>
+        {/* View Product Button */}
+        <a
+          href={product.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`flex items-center justify-center ${isMobile ? 'w-10 h-10' : 'gap-2 px-3 py-2'} rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition-all duration-200`}
+          title="View product"
+        >
+          <ExternalLink className="w-4 h-4 text-slate-300" />
+          {!isMobile && <span className="text-slate-300 text-sm font-medium">View</span>}
+        </a>
 
-      {/* Price Chart Button */}
-      <button
-        onClick={toggleChart}
-        disabled={productSummary?.history_status !== 'AVAILABLE'}
-        className={`flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'gap-2 px-4 py-2'} rounded-xl transition-all ${
-          productSummary?.history_status === 'AVAILABLE'
-            ? 'bg-gradient-to-r from-teal-500 to-cyan-500 hover:shadow-lg hover:shadow-teal-500/25 text-white'
-            : 'bg-slate-700/30 text-slate-500 cursor-not-allowed'
-        }`}
-        title={productSummary?.history_status === 'AVAILABLE' ? 'Toggle price chart' : 'Price history unavailable'}
-      >
-        <BarChart3 className="w-4 h-4" />
-        {!isMobile && <span className="text-sm font-medium">Chart</span>}
-        {!isMobile && productSummary?.history_status === 'AVAILABLE' && (
-          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isChartExpanded ? 'rotate-180' : ''}`} />
-        )}
-      </button>
+        {/* Price Chart Button - Glass Effect */}
+        <button
+          onClick={toggleChart}
+          disabled={productSummary?.history_status !== 'AVAILABLE'}
+          className={`flex items-center justify-center ${isMobile ? 'w-10 h-10' : 'gap-2 px-3 py-2'} rounded-lg transition-all duration-200 ${
+            productSummary?.history_status === 'AVAILABLE'
+              ? 'bg-teal-500/20 backdrop-blur-sm border border-teal-500/30 hover:bg-teal-500/30 hover:shadow-lg hover:shadow-teal-500/25 text-teal-300'
+              : 'bg-slate-700/30 text-slate-500 cursor-not-allowed'
+          }`}
+          title={productSummary?.history_status === 'AVAILABLE' ? 'Toggle price chart' : 'Price history unavailable'}
+        >
+          <BarChart3 className="w-4 h-4" />
+          {!isMobile && <span className="text-sm font-medium">Chart</span>}
+          {!isMobile && productSummary?.history_status === 'AVAILABLE' && (
+            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isChartExpanded ? 'rotate-180' : ''}`} />
+          )}
+        </button>
+      </div>
 
-      {/* Delete Button */}
-      <button
-        onClick={() => onDelete(product)}
-        className={`flex items-center justify-center ${isMobile ? 'w-12 h-12' : 'gap-2 px-4 py-2'} rounded-xl bg-rose-500/10 hover:bg-rose-500/20 transition-all`}
-        title="Delete product"
-      >
-        <Trash2 className="w-4 h-4 text-rose-400" />
-        {!isMobile && <span className="text-rose-400 text-sm">Delete</span>}
-      </button>
+      {/* Destructive Action - Separated */}
+      {!isMobile && (
+        <button
+          onClick={() => onDelete(product)}
+          className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all duration-200"
+          title="Delete product"
+        >
+          <Trash2 className="w-4 h-4" />
+          <span className="text-sm font-medium">Delete</span>
+        </button>
+      )}
+
+      {/* Mobile Delete Button */}
+      {isMobile && (
+        <button
+          onClick={() => onDelete(product)}
+          className="flex items-center justify-center w-10 h-10 rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all duration-200 ml-4"
+          title="Delete product"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 
   return (
-    <div className="group relative backdrop-blur-xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-300">
+    <div className="group relative backdrop-blur-xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-teal-500/20 hover:-translate-y-1 transition-all duration-200 ease-out">
       {/* MOBILE LAYOUT - Vertical */}
       <div className="md:hidden">
-        {/* Product Image */}
-        <div className="relative aspect-video bg-slate-900/50 overflow-hidden">
+        {/* Product Image - Grid Centered */}
+        <div className="relative h-80 bg-slate-900 rounded-t-2xl grid place-items-center overflow-hidden p-4">
           {product.image ? (
             <img
               src={product.image}
               alt={productName}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              title={productName}
+              className="max-w-full max-h-full object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'flex';
@@ -272,29 +301,32 @@ const EnhancedProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             <Package className="w-16 h-16 text-slate-700" />
           </div>
 
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <StatusBadge status={productStatus} />
           </div>
         </div>
 
         {/* Mobile Content */}
-        <div className="p-6 space-y-4">
-          {/* Product Name */}
-          <h3 className="text-lg font-semibold text-white leading-snug break-words overflow-hidden text-ellipsis line-clamp-3">
+        <div className="p-4 space-y-4">
+          {/* Product Name - Full display without truncation */}
+          <h3 className="text-xl font-bold text-white leading-tight break-words" title={productName}>
             {productName}
           </h3>
 
-          {/* Price Section - Stacked for mobile */}
+          {/* Subtle Divider */}
+          <div className="w-full h-px bg-slate-600/30 mt-4 mb-4"></div>
+
+          {/* Price Section - Enhanced Hierarchy */}
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-slate-400 mb-1">Current Price</p>
-              <p className="text-2xl font-semibold text-white">
+              <p className="text-base text-slate-400 mb-1">Current Price</p>
+              <p className="text-3xl font-bold text-white">
                 {currentPrice != null ? formatCurrency(currentPrice) : '—'}
               </p>
             </div>
             <div>
-              <p className="text-sm text-slate-400 mb-1">Target Price</p>
-              <p className="text-2xl font-semibold text-teal-400">
+              <p className="text-base text-slate-400 mb-1">Target Price</p>
+              <p className="text-3xl font-bold text-teal-400">
                 {formatCurrency(targetPrice)}
               </p>
             </div>
@@ -344,47 +376,52 @@ const EnhancedProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
 
           {/* Mobile Price Insights */}
           <div className="pt-4 border-t border-slate-700/50">
-            <h4 className="text-sm uppercase tracking-wide text-slate-400 mb-4">
+            <h4 className="text-sm uppercase tracking-wide text-slate-300 mb-4 font-bold border-b border-slate-600/50 pb-2">
               Price Insights
             </h4>
             <div className="space-y-3">
               {productSummary?.price_summary?.lowest_price && (
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Lowest</span>
-                  <span className="font-medium text-emerald-400">{formatCurrency(productSummary.price_summary.lowest_price)}</span>
+                <div className="flex justify-between items-center p-2 rounded-lg bg-emerald-500/5">
+                  <span className="text-slate-400 text-sm">Lowest</span>
+                  <span className="font-semibold text-emerald-400">{formatCurrency(productSummary.price_summary.lowest_price)}</span>
                 </div>
               )}
               {productSummary?.price_summary?.average_price && (
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Average</span>
-                  <span className="font-medium text-amber-400">{formatCurrency(productSummary.price_summary.average_price)}</span>
+                <div className="flex justify-between items-center p-2 rounded-lg bg-amber-500/5">
+                  <span className="text-slate-400 text-sm">Average</span>
+                  <span className="font-semibold text-amber-400">{formatCurrency(productSummary.price_summary.average_price)}</span>
                 </div>
               )}
               {productSummary?.price_summary?.highest_price && (
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Highest</span>
-                  <span className="font-medium text-rose-400">{formatCurrency(productSummary.price_summary.highest_price)}</span>
+                <div className="flex justify-between items-center p-2 rounded-lg bg-rose-500/5">
+                  <span className="text-slate-400 text-sm">Highest</span>
+                  <span className="font-semibold text-rose-400">{formatCurrency(productSummary.price_summary.highest_price)}</span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="pt-4 border-t border-slate-700/50">
+          {/* Freshness Indicator */}
+          <div className="pt-3 border-t border-slate-700/50">
+            <p className="text-xs text-slate-400 mb-3">
+              Last checked: This afternoon
+            </p>
+            {/* Action Buttons */}
             {renderActionButtons(true)}
           </div>
         </div>
       </div>
 
-      {/* DESKTOP LAYOUT - Horizontal */}
-      <div className="hidden md:flex">
-        {/* Left: Product Image */}
-        <div className="relative w-64 bg-slate-900/50 overflow-hidden flex-shrink-0">
+      {/* DESKTOP LAYOUT - Hybrid approach: flex for columns, absolute title spanning */}
+      <div className="hidden md:flex relative">
+        {/* Left: Product Image - Auto Height Centered */}
+        <div className="relative w-80 bg-slate-900 rounded-xl grid place-items-center overflow-hidden flex-shrink-0 p-4">
           {product.image ? (
             <img
               src={product.image}
               alt={productName}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              title={productName}
+              className="w-full h-auto object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'flex';
@@ -396,80 +433,101 @@ const EnhancedProductCard = ({ product, onEdit, onDelete, onViewUrl }) => {
             <Package className="w-16 h-16 text-slate-700" />
           </div>
 
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <StatusBadge status={productStatus} />
           </div>
         </div>
 
-        {/* Center: Main Content */}
-        <div className="flex-1 min-w-0 p-6 md:p-8 flex flex-col justify-between">
-          <div className="space-y-4">
-            {/* Product Name */}
-            <h3 className="text-xl font-semibold text-white leading-snug break-words overflow-hidden text-ellipsis line-clamp-2">
+        {/* Right Content Area with unified background and extended divider */}
+        <div className="flex-1 flex flex-col">
+          {/* Title spanning across both columns */}
+          <div className="px-5 pt-5 pb-4">
+            <h3 className="text-2xl font-bold text-white leading-tight break-words" title={productName}>
               {productName}
             </h3>
-
-            {/* Price Row - Restored Grid Balance */}
-            <div className="grid grid-cols-2 gap-10 mt-4">
-              <div>
-                <p className="text-sm text-slate-400 mb-1">Current Price</p>
-                <p className="text-3xl font-semibold text-white">
-                  {currentPrice != null ? formatCurrency(currentPrice) : '—'}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-slate-400 mb-1">Target Price</p>
-                <p className="text-3xl font-semibold text-teal-400">
-                  {formatCurrency(targetPrice)}
-                </p>
-              </div>
-            </div>
-
-            {/* Status Indicator */}
-            <div className="flex items-center gap-3">
-              {productStatus === 'READY_TO_BUY' ? (
-                <>
-                  <Check className="w-5 h-5 text-emerald-400" />
-                  <div>
-                    <p className="text-lg font-medium text-emerald-400">Target reached!</p>
-                    <p className="text-sm text-slate-500">Price dropped below your target. It's a good time to buy.</p>
-                  </div>
-                </>
-              ) : productStatus === 'WAIT_FOR_DROP' ? (
-                <>
-                  <TrendingDown className="w-5 h-5 text-orange-400" />
-                  <div>
-                    <p className="text-lg font-medium text-orange-400">
-                      {priceDifference > 0 ? `${formatCurrency(Math.abs(priceDifference))} to go` : 'Monitoring price'}
-                    </p>
-                    <p className="text-sm text-slate-500">We'll notify you when the price goes below {formatCurrency(targetPrice)}.</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <Clock className="w-5 h-5 text-blue-400" />
-                  <div>
-                    <p className="text-lg font-medium text-blue-400">Starting soon</p>
-                    <p className="text-sm text-slate-500">Tracking will begin</p>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Prediction (Desktop) */}
-            {renderPrediction()}
+            <div className="w-full h-px bg-slate-600/30 mt-5 mb-2"></div>
           </div>
 
-          {/* Section Divider */}
-          <div className="my-6 h-px bg-white/10" />
+          {/* Content area with full height for extended vertical divider */}
+          <div className="flex flex-1">
+            {/* Center: Main Content */}
+            <div className="flex-1 min-w-0 px-5 pb-5 flex flex-col justify-between">
+              <div className="space-y-4">
+                {/* Price Row - Refined Typography */}
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <p className="text-sm text-slate-400 mb-1">Current Price</p>
+                    <p className="text-3xl font-bold text-white">
+                      {currentPrice != null ? formatCurrency(currentPrice) : '—'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-400 mb-1">Target Price</p>
+                    <p className="text-3xl font-bold text-teal-400">
+                      {formatCurrency(targetPrice)}
+                    </p>
+                  </div>
+                </div>
 
-          {/* Action Buttons */}
-          {renderActionButtons(false)}
-        </div>
+                {/* Status Indicator */}
+                <div className="flex items-center gap-3">
+                  {productStatus === 'READY_TO_BUY' ? (
+                    <>
+                      <Check className="w-5 h-5 text-emerald-400" />
+                      <div>
+                        <p className="text-lg font-medium text-emerald-400">Target reached!</p>
+                        <p className="text-sm text-slate-500">Price dropped below your target. It's a good time to buy.</p>
+                      </div>
+                    </>
+                  ) : productStatus === 'WAIT_FOR_DROP' ? (
+                    <>
+                      <TrendingDown className="w-5 h-5 text-orange-400" />
+                      <div>
+                        <p className="text-lg font-medium text-orange-400">
+                          {priceDifference > 0 ? `${formatCurrency(Math.abs(priceDifference))} to go` : 'Monitoring price'}
+                        </p>
+                        <p className="text-sm text-slate-500">We'll notify you when the price goes below {formatCurrency(targetPrice)}.</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-5 h-5 text-blue-400" />
+                      <div>
+                        <p className="text-lg font-medium text-blue-400">Starting soon</p>
+                        <p className="text-sm text-slate-500">Tracking will begin</p>
+                      </div>
+                    </>
+                  )}
+                </div>
 
-        {/* Right: Price Summary */}
-        <div className="w-48 px-6 py-5 border-l border-white/10 flex-shrink-0">
-          {renderPriceSummary()}
+                {/* Prediction (Desktop) */}
+                {renderPrediction()}
+              </div>
+
+              {/* Bottom section */}
+              <div className="space-y-4">
+                {/* Freshness Indicator - positioned between AI insight and divider */}
+                <div className="pt-2">
+                  <p className="text-xs text-slate-400 text-center">
+                    Last checked: This afternoon
+                  </p>
+                </div>
+
+                {/* Section Divider */}
+                <div className="h-px bg-white/10" />
+
+                {/* Action Buttons */}
+                <div>
+                  {renderActionButtons(false)}
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Price Summary with extended border */}
+            <div className="w-52 px-5 pb-5 border-l border-slate-600/40 flex-shrink-0 h-full">
+              {renderPriceSummary()}
+            </div>
+          </div>
         </div>
       </div>
 
