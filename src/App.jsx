@@ -37,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth" element={<AuthPage showToast={showToast} />} />
-          <Route path="/store-locator" element={<StoreLocator />} />
+{/*           <Route path="/store-locator" element={<StoreLocator />} /> */}
           <Route
             path="/products"
             element={
