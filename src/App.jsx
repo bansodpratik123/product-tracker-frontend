@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Landing from './pages/Landing';
 import ProductsPage from './pages/ProductsPage';
+import StoreLocator from './pages/StoreLocator';
 import AuthPage from './pages/AuthPage';
 import Toast from './components/Toast';
 import AuthWrapper from './components/AuthWrapper';
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth" element={<AuthPage showToast={showToast} />} />
+          <Route path="/store-locator" element={<StoreLocator />} />
           <Route
             path="/products"
             element={
